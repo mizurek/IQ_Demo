@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pętla Costasa — demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="nav" href="index.html">← Modulacja i demodulacja IQ</a>
+    <h1>Pętla Costasa</h1>
+    <p class="lead">
+      Odbiornik nie zna ani fazy, ani dokładnej częstotliwości nośnej nadajnika, a w sygnale z danymi nośnej
+      w ogóle nie widać. Pętla Costasa patrzy na odzyskane <span class="ci">I</span> i <span class="cq">Q</span>,
+      wylicza z nich <span class="crf">sygnał błędu</span> i dokręca własny generator (NCO), aż konstelacja przestanie się obracać.
+    </p>
+  </header>
+
+  <section class="experiments card">
+    <h2>Eksperymenty</h2>
+    <div id="expButtons" class="chips"></div>
+    <p id="expText" class="exp-text"></p>
+  </section>
+
+  <main class="bench">
+    <aside class="controls card">
+      <div class="transport">
+        <button id="btnPlay" class="primary" title="Spacja">⏸ Pauza</button>
+        <button id="btnStep" title="Przesuń czas o kilka próbek">Krok</button>
+        <button id="btnDefaults">Domyślne</button>
+      </div>
+
+      <h3>Pętla</h3>
+      <button id="btnLoop" class="wide" title="Kliknij, aby otworzyć lub zamknąć pętlę"></button>
+      <button id="btnResetLoop" class="wide" title="Kasuje zapamiętaną poprawkę częstotliwości — pętla łapie od nowa">Wyzeruj NCO</button>
+
+      <h3>Zaburz nadajnik: skok fazy</h3>
+      <div class="modes">
+        <button data-kick="45">+45°</button>
+        <button data-kick="90">+90°</button>
+        <button data-kick="180">+180°</button>
+        <button data-kick="-135">−135°</button>
+      </div>
+
+      <h3>Nadawany sygnał</h3>
+      <div id="signalButtons" class="modes"></div>
+      <h3>Detektor błędu fazy</h3>
+      <div id="detButtons" class="modes"></div>
+
+      <div id="sliders"></div>
+    </aside>
+
+    <div class="center">
+      <section class="scope card">
+        <canvas id="scope"></canvas>
+        <div class="lane-label" style="--lane:0"><b>1 · Nadane dane</b> — <span class="ci">I</span> i <span class="cq">Q</span> w nadajniku (odbiornik ich nie zna)</div>
+        <div class="lane-label" style="--lane:1"><b>2 · Odbiornik</b> — <span class="ci">I</span> i <span class="cq">Q</span> po zmieszaniu z własną nośną (NCO) i uśrednieniu</div>
+        <div class="lane-label" style="--lane:2"><b>3 · Detektor błędu fazy</b> — <span class="crf faint">surowy</span>, <span class="crf">uśredniony</span>; dodatni = „NCO, przyspiesz”</div>
+        <div class="lane-label" style="--lane:3"><b>4 · Filtr pętli</b> — <span class="cok">poprawka częstotliwości NCO</span>, <span class="cref">- - rzeczywiste odstrojenie nadajnika</span></div>
+        <div class="lane-label" style="--lane:4"><b>5 · Rzeczywisty błąd fazy</b> — odbiornik go nie widzi; <span class="cok">zielone linie</span>: punkty, w których pętla może się zatrzasnąć</div>
+      </section>
+      <div class="card">
+        <h3>Charakterystyka detektora zmierzona na żywo</h3>
+        <canvas id="curve" class="spectrum"></canvas>
+        <p class="hint">Poziomo: rzeczywisty błąd fazy. Pionowo: uśredniony sygnał błędu. Pętla spycha punkt do <span class="cok">zielonych miejsc zerowych</span>.</p>
+      </div>
+    </div>
+
+    <aside class="planes">
+      <div class="card">
+        <h3>Odbiornik — odzyskane IQ</h3>
+        <canvas id="rxPlane" class="plane"></canvas>
+        <div class="readout">
+          <span>I <b id="rxI"></b></span><span>Q <b id="rxQ"></b></span>
+        </div>
+        <div class="stats">
+          <span id="stats"></span>
+          <button id="btnResetStats" class="small">Zeruj</button>
+        </div>
+      </div>
+      <div class="card">
+        <h3>Błąd fazy NCO względem nadajnika</h3>
+        <canvas id="dial" class="plane dial"></canvas>
+        <div class="readout">
+          <span>błąd fazy <b id="roPsi"></b></span>
+          <span>poprawka NCO <b id="roFreq"></b></span>
+        </div>
+        <p id="lock" class="lock"></p>
+      </div>
+    </aside>
+  </main>
+
+  <script src="costas.js"></script>
+</body>
+</html>

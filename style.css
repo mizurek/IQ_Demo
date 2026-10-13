@@ -166,3 +166,15 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--ci); outlin
   .row { break-inside: avoid; }
   .planes { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
 }
+
+/* --- pętla Costasa --- */
+.nav { display: inline-block; margin-bottom: 6px; font-size: 13px; color: var(--ci); text-decoration: none; }
+.nav:hover { text-decoration: underline; }
+.cok { color: var(--ok); font-weight: 600; }
+.controls > h3 { margin-top: 16px; }
+button.wide { display: block; width: 100%; margin-bottom: 6px; }
+.row.check label { justify-content: flex-start; align-items: center; cursor: pointer; }
+.row.check input { width: auto; margin: 0; }
+.plane.dial { aspect-ratio: 4 / 3; }
+.lock { margin: 8px 0 0; font-size: 13px; font-weight: 600; color: var(--muted); }
+.lock.on { color: var(--ok); }

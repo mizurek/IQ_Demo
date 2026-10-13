@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Modulacja i demodulacja IQ — demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Modulacja i demodulacja IQ</h1>
+    <p class="lead">
+      Dwie liczby — <span class="ci">I</span> oraz <span class="cq">Q</span> — sterują jedną falą nośną.
+      Nadajnik zamienia je na <span class="crf">sygnał RF</span>, odbiornik odzyskuje je z powrotem.
+      Kręć suwakami, przeciągaj punkt i patrz, co się dzieje.
+    </p>
+  </header>
+
+  <section class="experiments card">
+    <h2>Eksperymenty</h2>
+    <div id="expButtons" class="chips"></div>
+    <p id="expText" class="exp-text"></p>
+  </section>
+
+  <main class="bench">
+    <aside class="controls card">
+      <div class="transport">
+        <button id="btnPlay" class="primary" title="Spacja">⏸ Pauza</button>
+        <button id="btnStep" title="Przesuń czas o kilka próbek">Krok</button>
+        <button id="btnDefaults">Domyślne</button>
+      </div>
+      <h3>Co nadajemy</h3>
+      <div id="modeButtons" class="modes"></div>
+      <div id="sliders"></div>
+    </aside>
+
+    <div class="center">
+    <section class="scope card" id="scopeBox">
+      <canvas id="scope"></canvas>
+      <div class="lane-label" style="--lane:0"><b>1 · Pasmo podstawowe</b> — <span class="ci">I</span> i <span class="cq">Q</span>, czyli to, co chcemy nadać</div>
+      <div class="lane-label" style="--lane:1"><b>2 · Mnożenie</b> — <span class="ci">I × nośna</span> oraz <span class="cq">Q × ta sama nośna przesunięta o ćwierć okresu</span></div>
+      <div class="lane-label" style="--lane:2"><b>3 · Suma</b> — <span class="crf">jeden sygnał RF</span> w kablu lub w eterze (plus szum)</div>
+      <div class="lane-label" style="--lane:3"><b>4 · Odbiornik, gałąź I</b> — RF × nośna lokalna: <span class="ci faint">surowy iloczyn</span>, <span class="ci">po uśrednieniu</span>, <span class="cref">- - nadane I</span></div>
+      <div class="lane-label" style="--lane:4"><b>5 · Odbiornik, gałąź Q</b> — RF × nośna lokalna przesunięta o ćwierć okresu: <span class="cq faint">surowy iloczyn</span>, <span class="cq">po uśrednieniu</span>, <span class="cref">- - nadane Q</span></div>
+    </section>
+      <div class="card spec-card">
+        <h3>Widmo sygnału RF</h3>
+        <canvas id="spectrum" class="spectrum"></canvas>
+        <p class="hint">Oś pozioma: liczba cykli w czasie jednego symbolu.</p>
+      </div>
+    </div>
+
+    <aside class="planes">
+      <div class="card">
+        <h3>Nadajnik — płaszczyzna IQ</h3>
+        <canvas id="txPlane" class="plane drag"></canvas>
+        <div class="readout">
+          <span>I <b id="txI"></b></span><span>Q <b id="txQ"></b></span>
+          <span>amplituda <b id="txA"></b></span><span>faza <b id="txP"></b></span>
+        </div>
+        <p class="hint">Przeciągnij punkt, żeby ustawić I i Q ręcznie.</p>
+      </div>
+      <div class="card">
+        <h3>Odbiornik — odzyskane IQ</h3>
+        <canvas id="rxPlane" class="plane"></canvas>
+        <div class="readout">
+          <span>I <b id="rxI"></b></span><span>Q <b id="rxQ"></b></span>
+        </div>
+        <div class="stats">
+          <span id="stats"></span>
+          <button id="btnResetStats" class="small">Zeruj</button>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
